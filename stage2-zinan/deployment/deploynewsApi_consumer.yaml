@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: newsapi-consumer-deployment
+  namespace: kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: newsapi-consumer
+  template:
+    metadata:
+      labels:
+        app: newsapi-consumer
+    spec:
+      containers:
+      - name: newsapi-consumer
+        image: newsapi-consumer
+        imagePullPolicy: Never
+        env:
+        - name: BOOTSTRAP_SERVERS
+          value: "kafka-service-1.kafka.svc.cluster.local:9092,kafka-service-2.kafka.svc.cluster.local:9092,kafka-service-3.kafka.svc.cluster.local:9092,kafka-service-4.kafka.svc.cluster.local:9092,kafka-service-5.kafka.svc.cluster.local:9092"
+        - name: TOPIC_NAME
+          value: "news_data_topic"
+        - name: DB_NAME
+          value: "News" 
+        - name: COLLECTION_NAME
+          value: "news_articles" 
+        - name: ATLAS_URI
+          value: "mongodb+srv://group11:group11pass@group11-cluster.bxwy3jj.mongodb.net/"
+
+      nodeSelector:
+        kubernetes.io/hostname: group11-pa3-vm2

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reddit-producer-deployment
+  namespace: kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reddit-producer
+  template:
+    metadata:
+      labels:
+        app: reddit-producer
+    spec:
+      containers:
+      - name: reddit-producer
+        image: reddit-producer
+        imagePullPolicy: Never
+        env:
+        - name: BOOTSTRAP_SERVERS
+          value: "kafka-service-1.kafka.svc.cluster.local:9092,kafka-service-2.kafka.svc.cluster.local:9092,kafka-service-3.kafka.svc.cluster.local:9092,kafka-service-4.kafka.svc.cluster.local:9092,kafka-service-5.kafka.svc.cluster.local:9092"
+        - name: TOPIC_NAME
+          value: "reddit_news"
+        - name: MAIN_NEWS_SUBREDDITS
+          value: "worldnews,news,politics,economics,sports"        
+      nodeSelector:
+        kubernetes.io/hostname: group11-pa3-vm2

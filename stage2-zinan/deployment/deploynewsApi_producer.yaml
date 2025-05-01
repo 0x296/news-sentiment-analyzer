@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: newsapi-producer-deployment
+  namespace: kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: newsapi-producer
+  template:
+    metadata:
+      labels:
+        app: newsapi-producer
+    spec:
+      containers:
+      - name: newsapi-producer
+        image: newsapi-producer
+        imagePullPolicy: Never
+        env:
+        - name: BOOTSTRAP_SERVERS
+          value: "kafka-service-1.kafka.svc.cluster.local:9092,kafka-service-2.kafka.svc.cluster.local:9092,kafka-service-3.kafka.svc.cluster.local:9092,kafka-service-4.kafka.svc.cluster.local:9092,kafka-service-5.kafka.svc.cluster.local:9092"
+        - name: TOPIC_NAME
+          value: "news_data_topic"
+      nodeSelector:
+        kubernetes.io/hostname: group11-pa3-vm2

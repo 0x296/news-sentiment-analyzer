@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reddit-consumer-deployment
+  namespace: kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reddit-consumer
+  template:
+    metadata:
+      labels:
+        app: reddit-consumer
+    spec:
+      containers:
+      - name: reddit-consumer
+        image: reddit-consumer
+        imagePullPolicy: Never
+        env:
+        - name: BOOTSTRAP_SERVERS
+          value: "kafka-service-1.kafka.svc.cluster.local:9092,kafka-service-2.kafka.svc.cluster.local:9092,kafka-service-3.kafka.svc.cluster.local:9092,kafka-service-4.kafka.svc.cluster.local:9092,kafka-service-5.kafka.svc.cluster.local:9092"
+        - name: TOPIC_NAME
+          value: "reddit_news"
+        - name: DB_NAME
+          value: "News" 
+        - name: COLLECTION_NAME
+          value: "reddit_comments" 
+        - name: ATLAS_URI
+          value: "mongodb+srv://group11:group11pass@group11-cluster.bxwy3jj.mongodb.net/"
+        - name: AVERAGE_SENTIMENTS_COLLECTION_NAME
+          value: "average_sentiments"
+
+      nodeSelector:
+        kubernetes.io/hostname: group11-pa3-vm2

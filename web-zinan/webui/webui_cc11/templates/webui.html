@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css"> 
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+<div>
+    <div>
+        <h1 style="color: white;font-size: 50px;">News Sentiment Analyzer</h1>
+        <form id="sentimentForm" action="process/" method="GET" class="search-container">
+            <div class="search-container">
+                <div class="input-area">
+                    <input type="text" id="searchInput" name="query" placeholder="Enter topic you interested">
+                </div>
+                <div class="search-button">
+                    <button type="submit"><b>Get Sentiment &rarr;</b></button>   
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    document.getElementById('sentimentForm').addEventListener('submit', function(event) {
+        event.preventDefault();  // Prevent the default form submission
+    
+        const formData = new FormData(this);  // Create a FormData object from the form
+        const url = this.action;  // URL from the form's action attribute
+        fetch(url, {
+            method: 'POST',  // or 'POST' if your server expects a POST request
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',  // Required if sending POST
+            },
+            body: new URLSearchParams(formData).toString()  // Convert FormData into URLSearchParams
+        })
+        .then(response => response.text())  // Convert the response to text (assuming it's text)
+        .then(data => {
+            console.log(data);  // Log the server's response to the console
+            // Optionally, you can display this data on the page
+            alert(data);  // or update the DOM as needed
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+</body>
+
+</html>

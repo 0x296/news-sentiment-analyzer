@@ -1,0 +1,52 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color:rgb(0, 0, 80);
+}
+.search-container {
+    width:auto;
+    display: flex;
+    text-align: center;
+    flex-direction: row;
+}
+
+.search-container input#searchInput,
+.search-container *{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    /*width: 100%;*/
+}
+.search-container b {
+    display: flex; /* Apply flex to align text inside centrally, especially for the button */
+    align-items: center; /* Aligns the text inside the button vertically */
+    justify-content: center; /* Center the content inside the button horizontally */
+}
+.input-area{
+    display: block;
+    height: 40px;
+    width: 500px;
+    margin:4px;
+    /*padding: 10px 10px;*/
+}
+.search-button{
+    display: block;
+    height: 40px;
+    margin:4px;
+    /*padding: 10px 10px;*/
+}
+.input-area input {
+    width: 100%; /* Make input take full width of its container */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+    border: 1px solid #ccc; /* Optional: Adds a border for visual clarity */
+}
+.h1{
+    color: white;
+}
+#searchInput::placeholder {
+    font-weight: bold;
+    /* You can also add other styles here, such as color, font-size, etc. */
+}
